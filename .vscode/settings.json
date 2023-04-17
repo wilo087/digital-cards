@@ -3,11 +3,20 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "editor.formatOnSave": true,
   "eslint.format.enable": true,
+  // Lints with Standard JS
+  "standard.enable": true,
+  "standard.engine": "ts-standard",
+  "standard.autoFixOnSave": true,
+  // Files to validate with Standard JS
+  "standard.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
-  "standard.enable": true,
-  "standard.engine": "ts-standard",
   "standard.options": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
@@ -17,8 +26,16 @@
       "project": "./tsconfig.json"
     }
   },
-  "standard.validate": [
-    "javascript",
-    "typescript",
-  ]
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  }
 }

@@ -1,8 +1,10 @@
 {
+  "root": true,
   "extends": [
     "./node_modules/ts-standard/eslintrc.json"
   ],
   "rules": {
+    "no-html-link-for-pages": "off",
     "@typescript-eslint/dot-notation": [
       "error"
     ]

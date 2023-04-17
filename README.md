@@ -1,4 +1,4 @@
-## QR Card Generator
+## Qrioso
 Is oriented to the business world, where business cards can be generated from a local database or simply from contacts created in Active Directory.
 
 ## Stack
