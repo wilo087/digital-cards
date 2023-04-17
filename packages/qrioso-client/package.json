@@ -1,0 +1,39 @@
+{
+  "name": "qr-card-generator",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.11.16",
+    "@types/node": "18.15.10",
+    "@types/react": "18.0.30",
+    "@types/react-dom": "18.0.11",
+    "eslint": "^8.37.0",
+    "eslint-config-next": "13.2.4",
+    "eslint-plugin-n": "^15.7.0",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.57.1",
+    "@typescript-eslint/parser": "5.57.1",
+    "eslint-plugin-promise": "6.1.1",
+    "standard": "17.0.0",
+    "ts-standard": "12.0.2"
+  },
+  "ts-standard": {
+    "eslint": "./node_modules/ts-standard/eslintrc.json"
+  }
+}
