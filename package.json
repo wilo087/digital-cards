@@ -1,0 +1,14 @@
+{
+  "name": "qrioso",
+  "version": "0.0.1",
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18.16.0"
+  },
+  "repository": "git@github.com:wilo087/qrioso.git",
+  "author": "Wilowayne De La Cruz G. <wilo0087@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
