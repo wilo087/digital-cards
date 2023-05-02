@@ -1,0 +1,15 @@
+type Profile {
+    id: ID!
+    name: String!
+    email: String!
+    password: String!
+    avatar: String!
+    role: String!
+    createdAt: String!
+    updatedAt: String!
+}
+
+type Query {
+    getProfiles: [Profile]
+    getProfile(id: ID!): Profile
+}

@@ -1,18 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "lib": [
-      "es2020"
-    ],
-    "types": [
-      "node"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "@src/*": [
-        "src/*"
-      ]
-    }
+    "outDir": "dist"
   }
 }
