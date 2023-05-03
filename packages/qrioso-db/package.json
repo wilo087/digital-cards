@@ -1,0 +1,13 @@
+{
+  "name": "@qrioso/db",
+  "version": "0.0.1",
+  "main": "src",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "prisma": "^4.13.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.13.0"
+  }
+}
