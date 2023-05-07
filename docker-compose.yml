@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  stock.postgres:
+    container_name: qrioso_postgres
+    networks:
+      - qrioso_net
+    image: postgres:14.1-alpine3.14
+    # volumes:
+    #   - ./_cache/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 'passwd'
+      POSTGRES_USER: postgres
+      POSTGRES_DB: 'qrioso_db'
+      PGDATA: '/var/lib/postgresql/data'
+    ports:
+      - 5432:5432
+  # stock.service:
+  #   container_name: stock_service
+  #   networks:
+  #     - qrioso_stock_net
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/service/Dockerfile.dev
+  #   image: qrioso_stock_service
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules/
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - stock.postgres
+  #     - stock.api
+
+  # stock.api:
+  #   container_name: stock_api
+  #   networks:
+  #     - qrioso_stock_net
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/api/Dockerfile.dev
+  #   image: qrioso_stock_api
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules/
+
+networks:
+  qrioso_net:
+    name: qrioso_net

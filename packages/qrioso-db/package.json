@@ -4,6 +4,10 @@
   "main": "src",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev"
+  },
   "devDependencies": {
     "prisma": "^4.13.0"
   },

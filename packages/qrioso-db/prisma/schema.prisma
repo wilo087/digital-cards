@@ -1,0 +1,45 @@
+// This is Prisma schema file, which contains the database definition
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id               Int                @id @default(autoincrement())
+  name             String
+  address          String?
+  phone            String
+  email            String
+  website          String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  users            User[]
+  UsersOnCOmpanies UsersOnCOmpanies[]
+}
+
+model User {
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  name             String?
+  role             String             @default("user")
+  password         String
+  companies        Company[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  UsersOnCOmpanies UsersOnCOmpanies[]
+}
+
+model UsersOnCOmpanies {
+  Company   Company @relation(fields: [companyId], references: [id])
+  companyId Int
+  User      User    @relation(fields: [userId], references: [id])
+  userId    Int
+
+  @@id([userId, companyId])
+}
