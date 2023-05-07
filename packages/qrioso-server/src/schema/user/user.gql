@@ -1,0 +1,19 @@
+# import * from '../commons.gql'
+
+type User implements baseModel {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String
+    picture: String
+    role: String!
+    createdAt: DateTime!
+    updatedAt: DateTime
+    deletedAt: DateTime
+}
+
+type Query {
+    getUsers: [User]
+    # getUser(id: ID!): User
+}

@@ -1,7 +1,7 @@
 import { stitchSchemas } from '@graphql-tools/stitch'
 
-import profileSchema from './user/user'
+import userSchema from './user/user'
 
 export default stitchSchemas({
-  subschemas: [profileSchema]
+  subschemas: [userSchema]
 })
