@@ -1,0 +1,18 @@
+type User {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    picture: String!
+    role: String!
+    createdAt: Date!
+    updatedAt: Date!
+}
+
+type Query {
+    getUsers: [User]
+    getUser(id: ID!): User
+}
+
+scalar Date
