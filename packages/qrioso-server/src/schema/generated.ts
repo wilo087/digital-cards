@@ -4,6 +4,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -14,9 +15,46 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AuthPayload = {
+  __typename?: 'AuthPayload';
+  token: Scalars['String'];
+  user: User;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  deleteUser?: Maybe<User>;
+  login?: Maybe<AuthPayload>;
+  signup?: Maybe<AuthPayload>;
+  updateUser?: Maybe<User>;
+};
+
+
+export type MutationDeleteUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+
+export type MutationSignupArgs = {
+  input: UserInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID'];
+  input: UserInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   getUsers?: Maybe<Array<Maybe<User>>>;
+  me?: Maybe<User>;
 };
 
 export type User = BaseModel & {
@@ -31,6 +69,14 @@ export type User = BaseModel & {
   picture?: Maybe<Scalars['String']>;
   role: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type UserInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  password: Scalars['String'];
+  picture?: InputMaybe<Scalars['String']>;
 };
 
 export type BaseModel = {
@@ -108,32 +154,52 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
+  UserInput: UserInput;
   baseModel: ResolversTypes['User'];
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
   DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
+  Mutation: {};
   Query: {};
   String: Scalars['String'];
   User: User;
+  UserInput: UserInput;
   baseModel: ResolversParentTypes['User'];
+}>;
+
+export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  deleteUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
+  login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
+  signup?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
+  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
+}>;
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   getUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
@@ -159,7 +225,9 @@ export type BaseModelResolvers<ContextType = any, ParentType extends ResolversPa
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  AuthPayload?: AuthPayloadResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   baseModel?: BaseModelResolvers<ContextType>;

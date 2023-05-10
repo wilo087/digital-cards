@@ -12,11 +12,8 @@ const server = new ApolloServer({ schema })
 
 startStandaloneServer(server, {
   listen: { port: 4000 }
-  // context: ({ req, res }) => {
-
-  //   return {
-  //     req
-  //   }
+  // context: {
+  //   db
   // }
 }).then(({ url }) => {
   console.log(`🚀  Server ready at: ${url}`)
