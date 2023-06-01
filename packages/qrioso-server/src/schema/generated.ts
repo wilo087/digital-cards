@@ -60,12 +60,10 @@ export type Query = {
 export type User = BaseModel & {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
-  deletedAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
   lastName: Scalars['String'];
-  password?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   role: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -204,12 +202,10 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   picture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;

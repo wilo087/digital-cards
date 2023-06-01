@@ -1,4 +1,4 @@
-import { User, Resolvers, AuthPayload } from '../generated'
+import { User, Resolvers, AuthPayload, UserInput } from '../generated'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
@@ -15,7 +15,6 @@ const resolver: Resolvers = {
         firstName: 'test',
         lastName: 'test',
         email: 'wilo0087@gmail.com',
-        password: '1234',
         picture: 'https://avatars.githubusercontent.com/u/10263699?v=4',
         role: 'ADMIN',
         createdAt: new Date(),
@@ -25,13 +24,17 @@ const resolver: Resolvers = {
   },
   Mutation: {
     login: async (_parent, args, { models, secret }): Promise<AuthPayload> => {
-      const { email, password } = args
+      const { email } = args
       // const user = await models.User.findOne({ where: { email } })
 
       // Logic to check if user exists with provided email
       const token = '1234'
 
-      return { token, user: { id: '1', firstName: 'test', lastName: 'test', email, password, picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
+      return { token, user: { id: '1', firstName: 'test', lastName: 'test', email, picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
+    },
+    signup: async (_parent, args, { models, secret }): Promise<AuthPayload> => {
+      console.log(args)
+      return { token: 'HHGBBBHHSLOUTNLSH', user: { id: '1', firstName: 'test', lastName: 'test', email: 'wilo0087@gmail.com', picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
     }
   }
 }

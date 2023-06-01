@@ -5,7 +5,6 @@ type User implements baseModel {
     firstName: String!
     lastName: String!
     email: String!
-    password: String
     picture: String
     role: String!
     createdAt: DateTime!
