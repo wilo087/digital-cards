@@ -1,4 +1,4 @@
-import { User, Resolvers, AuthPayload, UserInput } from '../generated'
+import { User, Resolvers, AuthPayload } from '@qrioso/types'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { loadSchemaSync } from '@graphql-tools/load'
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
