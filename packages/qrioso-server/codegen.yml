@@ -1,6 +1,6 @@
 schema: "src/schema/**/*.gql"
 generates:
-  src/schema/generated.ts:
+  ../qrioso-types/src/generated.ts:
     noPluck: true
     config:
       useIndexSignature: true
