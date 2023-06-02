@@ -29,7 +29,7 @@ model User {
   lastName         String
   email            String             @unique
   picture          String?
-  role             String             @default("user")
+  role             Role               @default(public)
   password         String?
   companies        Company[]
   socialNetworks   SocialNetwork[]
@@ -55,4 +55,10 @@ model UsersOnCOmpanies {
   userId    Int
 
   @@id([userId, companyId])
+}
+
+enum Role {
+  admin
+  registed
+  public
 }

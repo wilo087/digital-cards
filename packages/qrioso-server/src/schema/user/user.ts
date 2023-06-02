@@ -32,9 +32,14 @@ const resolver: Resolvers = {
 
       return { token, user: { id: '1', firstName: 'test', lastName: 'test', email, picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
     },
-    signup: async (_parent, args, { models, secret }): Promise<AuthPayload> => {
-      console.log(args)
-      return { token: 'HHGBBBHHSLOUTNLSH', user: { id: '1', firstName: 'test', lastName: 'test', email: 'wilo0087@gmail.com', picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
+    signup: async (_parent, args, contextValue): Promise<AuthPayload> => {
+      const { db } = contextValue
+      const { input } = args
+
+      const user = await db.User.findOrCreate(input)
+
+      return { token: 'HHGBBBHHSLOUTNLSH', user }
+      // return { token: 'HHGBBBHHSLOUTNLSH', user: { id: '1', firstName: 'test', lastName: 'test', email: 'wilo0087@gmail.com', picture: '', role: '', createdAt: new Date(), updatedAt: new Date() } }
     }
   }
 }
