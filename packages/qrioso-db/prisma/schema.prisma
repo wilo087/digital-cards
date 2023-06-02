@@ -30,7 +30,7 @@ model User {
   email            String             @unique
   picture          String?
   role             String             @default("user")
-  password         String
+  password         String?
   companies        Company[]
   socialNetworks   SocialNetwork[]
   UsersOnCOmpanies UsersOnCOmpanies[]

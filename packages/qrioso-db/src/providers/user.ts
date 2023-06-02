@@ -1,38 +1,28 @@
 import { createClient } from '@qrioso/db/src/client'
+import { User } from '@prisma/client'
 import bcryptjs from 'bcryptjs'
-import { User } from '../../../qrioso-types/src'
 
 const client = createClient()
 
 client.$use(async (params, next) => {
   if (params.model === 'User' && params.action === 'create') {
-    const user = params.args.data
-    const encryptedPassword = await bcryptjs.hash(user.password, 10)
-    user.password = encryptedPassword
+    const { data } = params.args
+    data.password = await bcryptjs.hash(data.password, 10)
   }
 
   return await next(params)
 })
 
-const findOrCreate = async (email: string, password: string): Promise<User> => {
-  const user = await client.user.findUnique({ where: { email } })
+const findOrCreate = async (data: User): Promise<User> => {
+  const user = await client.user.findUnique({ where: { email: data.email } })
 
   if (user !== null) {
-    delete user.password
-    return { ...user } as User
+    return user
   }
 
-  // const userCreated = await client.user.create({
-  //   data: { email, password }
-  // })
+  const userCreated: User = await client.user.create({ data })
 
-  const newUser = {
-    // email: userCreated.email,
-    email: 'userCreated.email',
-    password
-  }
-
-  return newUser
+  return userCreated
 }
 
 export const provider = {
