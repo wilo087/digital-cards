@@ -1,15 +1,19 @@
 # import * from '../commons.gql'
+# import * from '../company/company.gql'
 
 type User implements baseModel {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    email: String!
-    picture: String
-    role: String!
-    createdAt: DateTime!
-    updatedAt: DateTime
-    deletedAt: DateTime
+  id: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
+  picture: String
+  role: String!
+  password: String
+  companies: [Company!]!
+  socialNetworks: [SocialNetwork!]!
+  usersOnCompanies: [UsersOnCompanies!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type AuthPayload {
@@ -23,6 +27,22 @@ input UserInput {
     email: String!
     password: String!
     picture: String
+}
+
+type UsersOnCompanies {
+  company: Company!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SocialNetwork {
+  id: Int!
+  name: String!
+  url: String!
+  user: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Query {

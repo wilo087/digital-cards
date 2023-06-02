@@ -21,12 +21,43 @@ export type AuthPayload = {
   user: User;
 };
 
+export type Company = {
+  __typename?: 'Company';
+  address?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  users: Array<User>;
+  usersOnCompanies: Array<UsersOnCompanies>;
+  website?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createCompany: Company;
+  deleteCompany?: Maybe<Company>;
   deleteUser?: Maybe<User>;
   login?: Maybe<AuthPayload>;
   signup?: Maybe<AuthPayload>;
+  updateCompany: Company;
   updateUser?: Maybe<User>;
+};
+
+
+export type MutationCreateCompanyArgs = {
+  address?: InputMaybe<Scalars['String']>;
+  email: Scalars['String'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  website?: InputMaybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteCompanyArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -46,6 +77,16 @@ export type MutationSignupArgs = {
 };
 
 
+export type MutationUpdateCompanyArgs = {
+  address?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  website?: InputMaybe<Scalars['String']>;
+};
+
+
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   input: UserInput;
@@ -53,21 +94,41 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  companies: Array<Company>;
+  company?: Maybe<Company>;
   getUsers?: Maybe<Array<Maybe<User>>>;
   me?: Maybe<User>;
 };
 
+
+export type QueryCompanyArgs = {
+  id: Scalars['Int'];
+};
+
+export type SocialNetwork = {
+  __typename?: 'SocialNetwork';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+  url: Scalars['String'];
+  user: User;
+};
+
 export type User = BaseModel & {
   __typename?: 'User';
+  companies: Array<Company>;
   createdAt: Scalars['DateTime'];
-  deletedAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
-  id: Scalars['ID'];
+  id: Scalars['Int'];
   lastName: Scalars['String'];
+  password?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   role: Scalars['String'];
-  updatedAt?: Maybe<Scalars['DateTime']>;
+  socialNetworks: Array<SocialNetwork>;
+  updatedAt: Scalars['DateTime'];
+  usersOnCompanies: Array<UsersOnCompanies>;
 };
 
 export type UserInput = {
@@ -76,6 +137,14 @@ export type UserInput = {
   lastName: Scalars['String'];
   password: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
+};
+
+export type UsersOnCompanies = {
+  __typename?: 'UsersOnCompanies';
+  company: Company;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
 };
 
 export type BaseModel = {
@@ -155,13 +224,17 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Company: ResolverTypeWrapper<Company>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  SocialNetwork: ResolverTypeWrapper<SocialNetwork>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserInput: UserInput;
+  UsersOnCompanies: ResolverTypeWrapper<UsersOnCompanies>;
   baseModel: ResolversTypes['User'];
 }>;
 
@@ -169,13 +242,17 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
+  Company: Company;
   DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
+  SocialNetwork: SocialNetwork;
   String: Scalars['String'];
   User: User;
   UserInput: UserInput;
+  UsersOnCompanies: UsersOnCompanies;
   baseModel: ResolversParentTypes['User'];
 }>;
 
@@ -185,32 +262,72 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = ResolversObject<{
+  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
+  usersOnCompanies?: Resolver<Array<ResolversTypes['UsersOnCompanies']>, ParentType, ContextType>;
+  website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationCreateCompanyArgs, 'email' | 'name' | 'phone'>>;
+  deleteCompany?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<MutationDeleteCompanyArgs, 'id'>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   signup?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
+  updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationUpdateCompanyArgs, 'id'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
+  company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, 'id'>>;
   getUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type SocialNetworkResolvers<ContextType = any, ParentType extends ResolversParentTypes['SocialNetwork'] = ResolversParentTypes['SocialNetwork']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  url?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   picture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  socialNetworks?: Resolver<Array<ResolversTypes['SocialNetwork']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  usersOnCompanies?: Resolver<Array<ResolversTypes['UsersOnCompanies']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type UsersOnCompaniesResolvers<ContextType = any, ParentType extends ResolversParentTypes['UsersOnCompanies'] = ResolversParentTypes['UsersOnCompanies']> = ResolversObject<{
+  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -224,10 +341,13 @@ export type BaseModelResolvers<ContextType = any, ParentType extends ResolversPa
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   AuthPayload?: AuthPayloadResolvers<ContextType>;
+  Company?: CompanyResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  SocialNetwork?: SocialNetworkResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
+  UsersOnCompanies?: UsersOnCompaniesResolvers<ContextType>;
   baseModel?: BaseModelResolvers<ContextType>;
 }>;
 

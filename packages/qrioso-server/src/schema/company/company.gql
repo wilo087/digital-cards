@@ -1,0 +1,26 @@
+# import * from '../commons.gql'
+# import * from '../user/user.gql'
+
+type Company {
+  id: Int!
+  name: String!
+  address: String
+  phone: String!
+  email: String!
+  website: String
+  users: [User!]!
+  usersOnCompanies: [UsersOnCompanies!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  companies: [Company!]!
+  company(id: Int!): Company
+}
+
+type Mutation {
+  createCompany(name: String!, address: String, phone: String!, email: String!, website: String): Company!
+  updateCompany(id: Int!, name: String, address: String, phone: String, email: String, website: String): Company!
+  deleteCompany(id: Int!): Company
+}
