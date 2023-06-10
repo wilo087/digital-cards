@@ -1,8 +1,8 @@
 # import * from '../commons.gql'
 # import * from '../company/company.gql'
 
-type User implements baseModel {
-  id: Int!
+type User {
+  id: Int
   firstName: String!
   lastName: String!
   email: String!
@@ -17,8 +17,8 @@ type User implements baseModel {
 }
 
 type AuthPayload {
-  token: String!
-  user: User!
+  token: String
+  user: User
 }
 
 input UserInput {

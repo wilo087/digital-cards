@@ -115,13 +115,13 @@ export type SocialNetwork = {
   user: User;
 };
 
-export type User = BaseModel & {
+export type User = {
   __typename?: 'User';
   companies: Array<Company>;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
   firstName: Scalars['String'];
-  id: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
   lastName: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
@@ -235,7 +235,7 @@ export type ResolversTypes = ResolversObject<{
   User: ResolverTypeWrapper<User>;
   UserInput: UserInput;
   UsersOnCompanies: ResolverTypeWrapper<UsersOnCompanies>;
-  baseModel: ResolversTypes['User'];
+  baseModel: never;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -253,7 +253,7 @@ export type ResolversParentTypes = ResolversObject<{
   User: User;
   UserInput: UserInput;
   UsersOnCompanies: UsersOnCompanies;
-  baseModel: ResolversParentTypes['User'];
+  baseModel: never;
 }>;
 
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
@@ -312,7 +312,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   picture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -332,7 +332,7 @@ export type UsersOnCompaniesResolvers<ContextType = any, ParentType extends Reso
 }>;
 
 export type BaseModelResolvers<ContextType = any, ParentType extends ResolversParentTypes['baseModel'] = ResolversParentTypes['baseModel']> = ResolversObject<{
-  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<null, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
