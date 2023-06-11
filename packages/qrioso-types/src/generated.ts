@@ -117,18 +117,18 @@ export type SocialNetwork = {
 
 export type User = {
   __typename?: 'User';
-  companies: Array<Company>;
+  companies?: Maybe<Array<Company>>;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
   firstName: Scalars['String'];
-  id?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
   lastName: Scalars['String'];
   password?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
   role: Scalars['String'];
-  socialNetworks: Array<SocialNetwork>;
-  updatedAt: Scalars['DateTime'];
-  usersOnCompanies: Array<UsersOnCompanies>;
+  socialNetworks?: Maybe<Array<SocialNetwork>>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  usersOnCompanies?: Maybe<Array<UsersOnCompanies>>;
 };
 
 export type UserInput = {
@@ -308,18 +308,18 @@ export type SocialNetworkResolvers<ContextType = any, ParentType extends Resolve
 }>;
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
-  companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
+  companies?: Resolver<Maybe<Array<ResolversTypes['Company']>>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   picture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  socialNetworks?: Resolver<Array<ResolversTypes['SocialNetwork']>, ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  usersOnCompanies?: Resolver<Array<ResolversTypes['UsersOnCompanies']>, ParentType, ContextType>;
+  socialNetworks?: Resolver<Maybe<Array<ResolversTypes['SocialNetwork']>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  usersOnCompanies?: Resolver<Maybe<Array<ResolversTypes['UsersOnCompanies']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -6,9 +6,14 @@ import bcryptjs from 'bcryptjs'
 const client = createClient()
 
 client.$use(async (params, next) => {
-  if (params.model === 'User' && params.action === 'create') {
-    const { data } = params.args
-    data.password = await bcryptjs.hash(data.password, 10)
+  const { action, model, args } = params
+
+  if (model === 'User' && action === 'create') {
+    args.data.password = await bcryptjs.hash(args.data.password, 10)
+  }
+
+  if (model === 'User' && action === 'findUnique') {
+    args.where.password = await bcryptjs.hash(args.where.password, 10)
   }
 
   return await next(params)
@@ -22,7 +27,6 @@ const findOrCreate = async (data: UserInput): Promise<User> => {
   }
 
   const userCreated: User = await client.user.create({ data })
-
   return userCreated
 }
 
