@@ -10,7 +10,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "generate": "lerna run generate --stream",
+    "generate": "lerna run generate --parallel --scope @qrioso/db --scope @qrioso/server",
     "migrate": "lerna run migrate --stream",
     "lint": "eslint ./packages/** --ext .ts --ext .tsx --quiet --cache --cache-location \".eslintcache/\"",
     "dev": "(cd packages/qrioso-server; yarn dev)",
