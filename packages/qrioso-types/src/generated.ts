@@ -29,9 +29,8 @@ export type Company = {
   id: Scalars['Int'];
   name: Scalars['String'];
   phone: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-  users: Array<User>;
-  usersOnCompanies: Array<UsersOnCompanies>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  users: Array<Maybe<User>>;
   website?: Maybe<Scalars['String']>;
 };
 
@@ -94,7 +93,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  companies: Array<Company>;
+  companies: Array<Maybe<Company>>;
   company?: Maybe<Company>;
   getUsers?: Maybe<Array<Maybe<User>>>;
   me?: Maybe<User>;
@@ -104,6 +103,12 @@ export type Query = {
 export type QueryCompanyArgs = {
   id: Scalars['Int'];
 };
+
+export enum Role {
+  Admin = 'admin',
+  Public = 'public',
+  Registed = 'registed'
+}
 
 export type SocialNetwork = {
   __typename?: 'SocialNetwork';
@@ -123,12 +128,11 @@ export type User = {
   firstName: Scalars['String'];
   id: Scalars['Int'];
   lastName: Scalars['String'];
-  password?: Maybe<Scalars['String']>;
+  password: Scalars['String'];
   picture?: Maybe<Scalars['String']>;
   role: Scalars['String'];
   socialNetworks?: Maybe<Array<SocialNetwork>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
-  usersOnCompanies?: Maybe<Array<UsersOnCompanies>>;
 };
 
 export type UserInput = {
@@ -137,14 +141,7 @@ export type UserInput = {
   lastName: Scalars['String'];
   password: Scalars['String'];
   picture?: InputMaybe<Scalars['String']>;
-};
-
-export type UsersOnCompanies = {
-  __typename?: 'UsersOnCompanies';
-  company: Company;
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  user: User;
+  role?: InputMaybe<Role>;
 };
 
 export type BaseModel = {
@@ -230,11 +227,11 @@ export type ResolversTypes = ResolversObject<{
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Role: Role;
   SocialNetwork: ResolverTypeWrapper<SocialNetwork>;
   String: ResolverTypeWrapper<Scalars['String']>;
   User: ResolverTypeWrapper<User>;
   UserInput: UserInput;
-  UsersOnCompanies: ResolverTypeWrapper<UsersOnCompanies>;
   baseModel: never;
 }>;
 
@@ -252,7 +249,6 @@ export type ResolversParentTypes = ResolversObject<{
   String: Scalars['String'];
   User: User;
   UserInput: UserInput;
-  UsersOnCompanies: UsersOnCompanies;
   baseModel: never;
 }>;
 
@@ -269,9 +265,8 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   phone?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
-  usersOnCompanies?: Resolver<Array<ResolversTypes['UsersOnCompanies']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   website?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -291,7 +286,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  companies?: Resolver<Array<ResolversTypes['Company']>, ParentType, ContextType>;
+  companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, 'id'>>;
   getUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
@@ -314,20 +309,11 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   lastName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  password?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   picture?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   role?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   socialNetworks?: Resolver<Maybe<Array<ResolversTypes['SocialNetwork']>>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
-  usersOnCompanies?: Resolver<Maybe<Array<ResolversTypes['UsersOnCompanies']>>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type UsersOnCompaniesResolvers<ContextType = any, ParentType extends ResolversParentTypes['UsersOnCompanies'] = ResolversParentTypes['UsersOnCompanies']> = ResolversObject<{
-  company?: Resolver<ResolversTypes['Company'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -347,7 +333,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   SocialNetwork?: SocialNetworkResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
-  UsersOnCompanies?: UsersOnCompaniesResolvers<ContextType>;
   baseModel?: BaseModelResolvers<ContextType>;
 }>;
 

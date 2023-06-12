@@ -8,10 +8,9 @@ type User {
   email: String!
   picture: String
   role: String!
-  password: String
+  password: String!
   companies: [Company!]
   socialNetworks: [SocialNetwork!]
-  usersOnCompanies: [UsersOnCompanies!]
   createdAt: DateTime!
   updatedAt: DateTime
 }
@@ -27,13 +26,7 @@ input UserInput {
   email: String!
   password: String!
   picture: String
-}
-
-type UsersOnCompanies {
-  company: Company!
-  user: User!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+  role: Role
 }
 
 type SocialNetwork {

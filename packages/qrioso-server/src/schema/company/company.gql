@@ -8,14 +8,13 @@ type Company {
   phone: String!
   email: String!
   website: String
-  users: [User!]!
-  usersOnCompanies: [UsersOnCompanies!]!
+  users: [User]!
   createdAt: DateTime!
-  updatedAt: DateTime!
+  updatedAt: DateTime
 }
 
 type Query {
-  companies: [Company!]!
+  companies: [Company]!
   company(id: Int!): Company
 }
 

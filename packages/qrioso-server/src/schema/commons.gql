@@ -6,3 +6,9 @@ interface baseModel {
   updatedAt: DateTime
   deletedAt: DateTime
 }
+
+enum Role {
+  admin
+  registed
+  public
+}
