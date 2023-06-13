@@ -13,13 +13,21 @@ type Company {
   updatedAt: DateTime
 }
 
+input CompanyInput {
+  name: String!
+  address: String
+  phone: String!
+  email: String!
+  website: String
+}
+
 type Query {
-  companies: [Company]!
+  companies: [Company!]
   company(id: Int!): Company
 }
 
 type Mutation {
-  createCompany(name: String!, address: String, phone: String!, email: String!, website: String): Company!
-  updateCompany(id: Int!, name: String, address: String, phone: String, email: String, website: String): Company!
+  createCompany(input: CompanyInput!): Company
+  # updateCompany(input: Company!): Company!
   deleteCompany(id: Int!): Company
 }

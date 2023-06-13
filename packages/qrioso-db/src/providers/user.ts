@@ -7,18 +7,11 @@ const client = createClient()
 
 client.$use(async (params, next) => {
   const { action, model, args } = params
-  console.log('Before', params)
 
   if (model === 'User' && action === 'create') {
     args.data.password = await bcryptjs.hash(args.data.password, 10)
   }
 
-  if (model === 'User' && action === 'findFirst' && args.where.password !== undefined) {
-    console.log('Password ', args.where.password)
-    args.where.password = await bcryptjs.hash(args.where.password, 10)
-  }
-
-  console.log('After on find first', params)
   return await next(params)
 })
 
@@ -32,7 +25,7 @@ client.$use(async (params, next) => {
 //   const userCreated = await client.user.create({ data })
 //   return userCreated
 // }
-
+// https://qrioso.auth.us-east-1.amazoncognito.com/oauth2/authorize?response_type=code&client_id=ri895uvf4jc59jnocqadqtrg3&redirect_uri=http://localhost:4000
 export const provider = {
   ...client.user
 }

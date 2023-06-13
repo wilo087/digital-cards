@@ -34,24 +34,27 @@ export type Company = {
   website?: Maybe<Scalars['String']>;
 };
 
-export type Mutation = {
-  __typename?: 'Mutation';
-  createCompany: Company;
-  deleteCompany?: Maybe<Company>;
-  deleteUser?: Maybe<User>;
-  login?: Maybe<AuthPayload>;
-  signup?: Maybe<AuthPayload>;
-  updateCompany: Company;
-  updateUser?: Maybe<User>;
-};
-
-
-export type MutationCreateCompanyArgs = {
+export type CompanyInput = {
   address?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   name: Scalars['String'];
   phone: Scalars['String'];
   website?: InputMaybe<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createCompany?: Maybe<Company>;
+  deleteCompany?: Maybe<Company>;
+  deleteUser?: Maybe<User>;
+  login?: Maybe<AuthPayload>;
+  signup?: Maybe<AuthPayload>;
+  updateUser?: Maybe<User>;
+};
+
+
+export type MutationCreateCompanyArgs = {
+  input: CompanyInput;
 };
 
 
@@ -76,16 +79,6 @@ export type MutationSignupArgs = {
 };
 
 
-export type MutationUpdateCompanyArgs = {
-  address?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  id: Scalars['Int'];
-  name?: InputMaybe<Scalars['String']>;
-  phone?: InputMaybe<Scalars['String']>;
-  website?: InputMaybe<Scalars['String']>;
-};
-
-
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   input: UserInput;
@@ -93,7 +86,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  companies: Array<Maybe<Company>>;
+  companies?: Maybe<Array<Company>>;
   company?: Maybe<Company>;
   getUsers?: Maybe<Array<Maybe<User>>>;
   me?: Maybe<User>;
@@ -222,6 +215,7 @@ export type ResolversTypes = ResolversObject<{
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Company: ResolverTypeWrapper<Company>;
+  CompanyInput: CompanyInput;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -240,6 +234,7 @@ export type ResolversParentTypes = ResolversObject<{
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
   Company: Company;
+  CompanyInput: CompanyInput;
   DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
@@ -276,17 +271,16 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationCreateCompanyArgs, 'email' | 'name' | 'phone'>>;
+  createCompany?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<MutationCreateCompanyArgs, 'input'>>;
   deleteCompany?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<MutationDeleteCompanyArgs, 'id'>>;
   deleteUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   signup?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationSignupArgs, 'input'>>;
-  updateCompany?: Resolver<ResolversTypes['Company'], ParentType, ContextType, RequireFields<MutationUpdateCompanyArgs, 'id'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'id' | 'input'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
+  companies?: Resolver<Maybe<Array<ResolversTypes['Company']>>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, 'id'>>;
   getUsers?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;

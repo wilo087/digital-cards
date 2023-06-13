@@ -4,7 +4,9 @@ let client: PrismaClient
 
 export function createClient (): PrismaClient {
   if (client === undefined) {
-    client = new PrismaClient()
+    client = new PrismaClient({
+      log: ['query']
+    })
   }
 
   return client
