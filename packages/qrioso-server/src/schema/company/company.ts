@@ -15,7 +15,6 @@ const resolver: Resolvers = {
   Mutation: {
     createCompany: async (_parent, args, { db }): Promise<Company> => {
       const { input } = args
-      console.log('input', input)
       const company = await db.Company.create({ data: input })
 
       return company
