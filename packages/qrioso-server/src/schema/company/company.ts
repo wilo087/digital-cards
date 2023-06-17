@@ -1,15 +1,22 @@
 import type { Resolvers, Company } from '@qrioso/types'
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { loadSchemaSync } from '@graphql-tools/load'
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
-import { DateTimeResolver, DateTimeTypeDefinition } from 'graphql-scalars'
 
-const resolver: Resolvers = {
+const companyResolver: Resolvers = {
   Query: {
     companies: async (_parent, _args, { db }): Promise<Company[]> => {
       const companies = await db.Company.findMany()
 
       return companies
+    }
+  },
+  Company: {
+    users: async (parent, _args, { db }): Promise<any> => {
+      const users = await db.User.findMany({
+        where: {
+          companyId: parent.id
+        }
+      })
+
+      return users
     }
   },
   Mutation: {
@@ -22,10 +29,4 @@ const resolver: Resolvers = {
   }
 }
 
-export default makeExecutableSchema({
-  typeDefs: [
-    DateTimeTypeDefinition,
-    loadSchemaSync('./src/schema/company/company.gql', { loaders: [new GraphQLFileLoader()] })
-  ],
-  resolvers: { ...resolver, DateTime: DateTimeResolver }
-})
+export default companyResolver

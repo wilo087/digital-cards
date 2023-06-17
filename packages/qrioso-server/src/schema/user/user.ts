@@ -1,12 +1,8 @@
 import type { User, Resolvers, AuthPayload } from '@qrioso/types'
 import { GraphQLError } from 'graphql'
-import { makeExecutableSchema } from '@graphql-tools/schema'
-import { loadSchemaSync } from '@graphql-tools/load'
-import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
-import { DateTimeResolver, DateTimeTypeDefinition } from 'graphql-scalars'
 import jwt from 'jsonwebtoken'
 
-const resolver: Resolvers = {
+const UserResolver: Resolvers = {
   Query: {
     me: async (_parent, _args, context): Promise<User> => {
       return context.currentUser
@@ -38,6 +34,7 @@ const resolver: Resolvers = {
     signup: async (_parent, args, { db }): Promise<AuthPayload> => {
       const { input } = args
       const user = await db.User.findUnique({ where: { email: input.email } })
+      console.log('test', user)
 
       if (user !== null) {
         throw new GraphQLError('User already exists', {
@@ -45,17 +42,11 @@ const resolver: Resolvers = {
         })
       }
 
-      const createdUser = db.User.create({ data: input })
+      const createdUser = await db.User.create({ data: input })
 
       return { token: 'HHGBBBHHSLOUTNLSH', user: createdUser }
     }
   }
 }
 
-export default makeExecutableSchema({
-  typeDefs: [
-    DateTimeTypeDefinition,
-    loadSchemaSync('./src/schema/user/user.gql', { loaders: [new GraphQLFileLoader()] })
-  ],
-  resolvers: { ...resolver, DateTime: DateTimeResolver }
-})
+export default UserResolver
